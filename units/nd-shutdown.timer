@@ -1,0 +1,9 @@
+[Unit]
+Description=Watch for network drive initiated shutdown.
+
+[Timer]
+OnBootSec=0min
+OnCalendar=*:0/1
+
+[Install]
+WantedBy=timers.target

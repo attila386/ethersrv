@@ -1,0 +1,55 @@
+#!/bin/bash
+
+SHARE=/var/netdrive
+TIMESTAMP=$(date "+%Y-%m-%dT%H:%M:%SZ")
+LOG=/var/log/netdrive.log
+LOCK=/run/lock/nd-sync.lock
+
+if [ ! -f $LOCK ]; then
+  touch $LOCK
+fi
+
+if [ ! -f $LOG ]; then
+  touch $LOG
+fi
+
+find $SHARE -type f -exec chmod 644 {} \;
+find $SHARE -type d -exec chmod 755 {} \;
+
+cd $SHARE
+
+git pull > /dev/null 2>&1; RES=$?
+echo "$TIMESTAMP git: pulling from remote." >> $LOG
+
+if [ "$RES" -ne 0 ]; then
+  echo "$TIMESTAMP git: pull failed." >> $LOG
+fi
+
+git add . > /dev/null 2>&1; RES=$?
+echo "$TIMESTAMP git: adding local changes." >> $LOG
+
+if [ "$RES" -ne 0 ]; then
+  echo "$TIMESTAMP git: add failed." >> $LOG
+fi
+
+git commit -m "Autocommit at $TIMESTAMP." > /dev/null 2>&1; RES=$?
+echo "$TIMESTAMP git: commiting local changes." >> $LOG
+
+if [ "$RES" -eq 0 ]; then
+  :
+elif [ "$RES" -eq 1 ]; then 
+  echo "$TIMESTAMP git: nothing to commit." >> $LOG
+else
+  echo "$TIMESTAMP git: commit failed." >> $LOG
+fi
+
+git push > /dev/null 2>&1; RES=$?
+echo "$TIMESTAMP git: pushing to remote." >> $LOG
+
+if [ "$RES" -ne 0 ]; then
+  echo "$TIMESTAMP git: push failed." >> $LOG
+else
+  echo "$TIMESTAMP git: pushed successfully." >> $LOG
+fi
+
+rm $LOCK

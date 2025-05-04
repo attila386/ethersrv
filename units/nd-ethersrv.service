@@ -1,0 +1,13 @@
+[Unit]
+Description=Start network drive service.
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/nd-ethersrv
+Restart=in-failure
+RestartSec=10
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

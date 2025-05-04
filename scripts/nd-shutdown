@@ -1,0 +1,25 @@
+#!/bin/bash
+
+TIMESTAMP=$(date "+%Y-%m-%dT%H:%M:%SZ")
+LOG=/var/log/netdrive.log
+SYNC=/usr/local/bin/nd-sync
+SYNC_LOCK=/run/lock/nd-sync.lock
+SHARE=/var/netdrive
+
+if [ ! -f $LOG ]; then
+  touch $LOG
+fi
+
+
+if [ -f $SHARE/shutdown ]; then
+  while [ -f $SYNC_LOCK ]; do
+    echo "$TIMESTAMP system: Another sync in progress detected. Waiting for sync to finish." >> $LOG
+  done
+  eval "$SYNC"
+  echo "$TIMESTAMP system: EtherDFS initiated shutdown detected. Shutting down." >> $LOG
+  rm $SHARE/shutdown
+  /usr/sbin/poweroff
+else
+  :
+  # echo "$TIMESTAMP system: No shutdown command arrived." >> $LOG
+fi

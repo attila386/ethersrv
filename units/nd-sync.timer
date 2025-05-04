@@ -1,0 +1,9 @@
+[Unit]
+Description=Sync network drive every 5 minutes.
+
+[Timer]
+OnBootSec=0min
+OnCalendar=*:0/5
+
+[Install]
+WantedBy=timers.target
