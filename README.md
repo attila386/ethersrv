@@ -3,7 +3,7 @@
 What about if you can develop software (or anything else) on your retro DOS PC
 and to be able to transfer it to github with ease?
 
-For the story visit my website.
+For the story visit my [website](https://socket7.hu).
 
 Scripts:
 
