@@ -1,6 +1,7 @@
 #!/bin/bash
 
-SHARE=/var/netdrive
+SHARE=/var/netdrive-data
+
 TIMESTAMP=$(date "+%Y-%m-%dT%H:%M:%SZ")
 LOG=/var/log/netdrive.log
 LOCK=/run/lock/nd-sync.lock

@@ -1,3 +1,5 @@
 #!/bin/bash
 
-/usr/sbin/ethersrv-linux eth0 /var/netdrive
+SHARE=/var/netdrive-data
+
+/usr/sbin/ethersrv-linux eth0 $SHARE

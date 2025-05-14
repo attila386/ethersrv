@@ -1,10 +1,11 @@
 #!/bin/bash
 
+SHARE=/var/netdrive-data
+
 TIMESTAMP=$(date "+%Y-%m-%dT%H:%M:%SZ")
 LOG=/var/log/netdrive.log
 SYNC=/usr/local/bin/nd-sync
 SYNC_LOCK=/run/lock/nd-sync.lock
-SHARE=/var/netdrive
 
 if [ ! -f $LOG ]; then
   touch $LOG
